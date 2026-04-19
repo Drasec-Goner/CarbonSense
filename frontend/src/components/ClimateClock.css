@@ -1,31 +1,31 @@
 .climate-clock-wrapper {
   position: absolute;
-  top: 64px;                  /* Move to border between navbar & dashboard */
+  top: 72px;
   left: 50%;
   transform: translateX(-50%);
 
   z-index: 3000;
 
   /* Very light glass effect */
-  background: rgba(255, 255, 255, 0.12);
-  backdrop-filter: blur(6px);
-  -webkit-backdrop-filter: blur(6px);
+  background: rgba(250, 255, 255, 0.14);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
 
-  padding: 0.35rem 0.8rem;    /* Smaller padding */
+  padding: 0.4rem 0.9rem;
   border-radius: 12px;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.25);
+  box-shadow: 0 8px 20px rgba(8, 28, 46, 0.3);
 
-  border: 1px solid rgba(255, 255, 255, 0.2);
+  border: 1px solid rgba(199, 228, 255, 0.35);
 }
 
 /* Title */
 .clock-row {
   text-align: center;
-  font-size: 1rem;         /* Smaller title */
-  color: #00596fff;
+  font-size: 0.9rem;
+  color: #dcf0ff;
   margin-bottom: 5px;
-  font-weight: bold;
-  text-shadow: 0px 0px 3px rgba(0, 0, 0, 0.4);
+  font-weight: 700;
+  text-shadow: 0 1px 4px rgba(0, 0, 0, 0.35);
 }
 
 /* Timer row */
@@ -36,10 +36,10 @@
 
 /* Tiles */
 .clock-block {
-  background: rgba(0, 0, 0, 0.75);
-  color: #63ff87;             /* Slightly softer green */
+  background: rgba(9, 28, 46, 0.86);
+  color: #9bffc4;
   font-weight: bold;
-  padding: 5px 10px;          /* Smaller tile */
+  padding: 5px 10px;
   border-radius: 8px;
   font-size: 0.9rem;          /* Smaller numbers */
   min-width: 40px;
@@ -48,20 +48,27 @@
   align-items: center;
   justify-content: center;
 
-  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.4);
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.35);
 }
 
 /* Units (Y, D, H, M, S) */
 .clock-block span {
-  color: #c7ffd8;
+  color: #d7ffe6;
   font-size: 0.55rem;
   margin-left: 3px;
+}
+
+.clock-loading {
+  color: #d9eeff;
+  font-size: 0.86rem;
+  font-weight: 600;
+  letter-spacing: 0.02em;
 }
 
 /* Responsive */
 @media (max-width: 768px) {
   .climate-clock-wrapper {
-    top: 57px;
+    top: 62px;
     padding: 0.25rem 0.6rem;
   }
 

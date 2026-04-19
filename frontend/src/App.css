@@ -1,25 +1,147 @@
-* {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
-}
-
 .App {
-  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
   min-height: 100vh;
-  background: linear-gradient(135deg, #256670 0%, #3ba6b4 100%);
+  background:
+    radial-gradient(900px 420px at 10% 0%, rgba(76, 201, 240, 0.16), transparent 60%),
+    radial-gradient(800px 360px at 100% 100%, rgba(255, 181, 107, 0.14), transparent 55%),
+    linear-gradient(150deg, #0d2b45 0%, #0b3a57 55%, #0f4a66 100%);
+  position: relative;
+  overflow-x: hidden;
 }
 
 .main-content {
-  padding: 20px;
-  margin-top: 80px;
-  min-height: calc(100vh - 80px);
+  position: relative;
+  z-index: 2;
+  width: min(1440px, 100%);
+  margin: 0 auto;
+  padding: 28px;
+  margin-top: 88px;
+  min-height: calc(100vh - 88px);
+}
+
+.ambient-glow {
+  position: fixed;
+  border-radius: 999px;
+  filter: blur(42px);
+  opacity: 0.35;
+  pointer-events: none;
+  z-index: 0;
+}
+
+.ambient-glow-top {
+  width: 340px;
+  height: 340px;
+  top: -140px;
+  right: -60px;
+  background: linear-gradient(120deg, #64dfdf, #80ffdb);
+}
+
+.ambient-glow-bottom {
+  width: 300px;
+  height: 300px;
+  bottom: -120px;
+  left: -90px;
+  background: linear-gradient(120deg, #ff8fa3, #ffd6a5);
+}
+
+.app-loader-screen {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  color: #e8f4ff;
+  background:
+    radial-gradient(400px 180px at 30% 10%, rgba(76, 201, 240, 0.2), transparent 70%),
+    linear-gradient(145deg, #0d2b45 0%, #0f4a66 100%);
+  opacity: 1;
+  transition: opacity 0.35s ease;
+}
+
+.app-loader-screen.fade-out {
+  opacity: 0;
+}
+
+.app-loader-content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 0.85rem;
+  transform: translateY(-8px);
+}
+
+.app-loader-orb {
+  width: 74px;
+  height: 74px;
+  border-radius: 50%;
+  background: conic-gradient(from 0deg, #80ffdb, #64dfdf, #48bfe3, #80ffdb);
+  margin: 0;
+  animation: spinLoader 1.2s linear infinite;
+  box-shadow: 0 10px 30px rgba(100, 223, 223, 0.35);
+}
+
+.app-loader-screen h1 {
+  margin: 0;
+  font-size: 1.9rem;
+  letter-spacing: 0.02em;
+}
+
+.app-loader-screen p {
+  margin: 0;
+  color: #b7d7f0;
+}
+
+.page-transition-loader {
+  position: fixed;
+  inset: 0;
+  z-index: 2300;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  background:
+    radial-gradient(340px 180px at 50% 34%, rgba(100, 223, 223, 0.24), rgba(15, 43, 69, 0.12) 60%, rgba(11, 38, 62, 0.7)),
+    rgba(10, 30, 49, 0.72);
+  backdrop-filter: blur(2px);
+}
+
+.page-transition-loader-content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 0.7rem;
+  transform: translateY(-14px);
+}
+
+.page-transition-loader p {
+  margin: 0;
+  color: #d8efff;
+  font-size: 1rem;
+  font-weight: 600;
+  letter-spacing: 0.01em;
+}
+
+.page-transition-orb {
+  width: 58px;
+  height: 58px;
+  border-radius: 50%;
+  background: conic-gradient(from 0deg, #80ffdb, #64dfdf, #48bfe3, #80ffdb);
+  margin: 0 auto;
+  box-shadow: 0 10px 28px rgba(100, 223, 223, 0.36);
+  animation: spinLoader 0.9s linear infinite;
+}
+
+@keyframes spinLoader {
+  to {
+    transform: rotate(360deg);
+  }
 }
 
 /* Responsive Design */
 @media (max-width: 768px) {
   .main-content {
-    padding: 10px;
-    margin-top: 60px;
+    padding: 14px;
+    margin-top: 72px;
   }
 }

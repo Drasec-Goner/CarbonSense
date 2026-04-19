@@ -16,8 +16,25 @@ connectDB();
 
 // Middleware
 app.use(cors({
-  origin: process.env.FRONTEND_URL || '*', // Update this with your Render frontend URL
-  credentials: true
+  origin: (origin, callback) => {
+    if (!origin) {
+      return callback(null, true);
+    }
+
+    const allowedOrigin = process.env.FRONTEND_URL;
+    const isLocalhost = /^http:\/\/localhost:\d+$/.test(origin) || /^http:\/\/127\.0\.0\.1:\d+$/.test(origin);
+
+    if (allowedOrigin && origin === allowedOrigin) {
+      return callback(null, true);
+    }
+
+    if (isLocalhost) {
+      return callback(null, true);
+    }
+
+    return callback(new Error('Not allowed by CORS'));
+  },
+  credentials: false
 }));
 
 app.use(bodyParser.json());

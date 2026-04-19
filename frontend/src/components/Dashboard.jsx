@@ -1,15 +1,21 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import './Dashboard.css';
 
 const Dashboard = () => {
+  const [isLoading, setIsLoading] = useState(true);
+
   useEffect(() => {
     // Load Tableau JavaScript API
     const script = document.createElement('script');
     script.src = 'https://public.tableau.com/javascripts/api/viz_v1.js';
     script.async = true;
+    script.onload = () => setIsLoading(false);
     document.body.appendChild(script);
 
+    const fallback = setTimeout(() => setIsLoading(false), 2200);
+
     return () => {
+      clearTimeout(fallback);
       if (document.body.contains(script)) {
         document.body.removeChild(script);
       }
@@ -20,6 +26,12 @@ const Dashboard = () => {
     <div className="dashboard-container">
       <h1 className="dashboard-title">Carbon Emissions Dashboard</h1>
       <div className="tableau-container">
+        {isLoading && (
+          <div className="section-loader" role="status" aria-live="polite">
+            <div className="loader-dot" />
+            <span>Loading interactive dashboard...</span>
+          </div>
+        )}
         <div
           className="tableauPlaceholder"
           id="viz1699264689524"

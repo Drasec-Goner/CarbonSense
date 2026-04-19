@@ -1,183 +1,166 @@
-import React from "react";
-import "./ResearchPaper.css";
+import React from 'react';
 import {
+  FaBolt,
+  FaBus,
+  FaIndustry,
   FaLeaf,
-  FaGlobeAsia,
-  FaChartLine,
-  FaBookReader,
+  FaMapMarkedAlt,
+  FaRegLightbulb,
   FaDownload,
-} from "react-icons/fa";
+  FaCheckCircle,
+} from 'react-icons/fa';
+import './ResearchPaper.css';
+
+const emissionMix = [
+  { sector: 'Power & Energy', share: 38, icon: FaBolt, detail: 'Coal-heavy electricity generation remains the largest source.' },
+  { sector: 'Transport', share: 24, icon: FaBus, detail: 'Freight movement and urban vehicle growth drive fuel demand.' },
+  { sector: 'Industry', share: 21, icon: FaIndustry, detail: 'Steel, cement, and process heat intensify emissions intensity.' },
+  { sector: 'Agriculture & Land', share: 17, icon: FaLeaf, detail: 'Methane and land-use patterns shape regional climate pressure.' },
+];
+
+const stateRiskBands = [
+  { band: 'High Emission + High Vulnerability', states: 'Maharashtra, Gujarat, Tamil Nadu, Uttar Pradesh', color: 'high' },
+  { band: 'Medium Emission + Rising Climate Stress', states: 'Karnataka, Rajasthan, Andhra Pradesh, Haryana', color: 'medium' },
+  { band: 'Low Emission + Fragile Ecosystems', states: 'North-East states, Himalayan belt, island territories', color: 'low' },
+];
+
+const roadmap = [
+  {
+    phase: '2026-2030',
+    title: 'Stabilize Growth in Emissions',
+    points: [
+      'Scale renewable procurement and storage in high-load states',
+      'Shift freight corridors to rail and multimodal logistics',
+      'Expand clean cooking and urban EV ecosystem',
+    ],
+  },
+  {
+    phase: '2030-2040',
+    title: 'Deep Sector Decarbonization',
+    points: [
+      'Industrial heat electrification and green hydrogen pilots',
+      'Grid flexibility with advanced demand response',
+      'State-level carbon budgeting with annual disclosure',
+    ],
+  },
+  {
+    phase: '2040-2070',
+    title: 'Net-Zero Pathway Consolidation',
+    points: [
+      'Hard-to-abate sector transition financing',
+      'Large-scale ecosystem restoration and carbon sinks',
+      'Adaptive resilience planning for climate extremes',
+    ],
+  },
+];
 
 const ResearchPaper = () => {
   return (
     <div className="research-container">
-      <h1 className="research-title">Research & Climate Studies</h1>
+      <header className="research-hero">
+        <h1>Studies & Climate Intelligence</h1>
+        <p>
+          A structured evidence brief on India’s emissions profile, regional vulnerability, and practical transition pathway.
+          This page is designed as a study dashboard so students, policy learners, and citizens can understand both what is
+          happening and what must happen next.
+        </p>
+      </header>
 
-      <div className="research-content">
-
-        {/* ======== SECTION 1: Summary Overview ======== */}
-        <section className="research-section fade-in">
-          <h2>Study Overview</h2>
-
-          <div className="overview-enhanced">
-            <p className="overview-intro">
-              CarbonSense India presents a comprehensive, multi-dimensional analysis of India’s carbon footprint.
-              The study integrates scientific research, satellite analytics, and public data to highlight the nation's
-              climate vulnerabilities and pathways to sustainable growth.
+      <section className="research-surface">
+        <div className="surface-grid">
+          <article className="surface-card intro-card">
+            <h2>What This Study Explains</h2>
+            <p>
+              CarbonSense combines multi-year emissions trends, sector-level activity, and state-wise risk signals to build
+              an interpretable climate narrative for India. Instead of just showing charts, it links patterns to action.
             </p>
+            <ul>
+              <li><FaCheckCircle /> Where emissions are concentrated</li>
+              <li><FaCheckCircle /> Which regions carry highest climate pressure</li>
+              <li><FaCheckCircle /> Which policy levers can reduce emissions faster</li>
+            </ul>
+          </article>
 
-            <div className="overview-points">
-              <div className="overview-card">
-                <h3>Nationwide Emission Mapping</h3>
-                <p>
-                  A consolidated view of carbon emissions across all major sectors, including
-                  transport, industry, energy, agriculture, waste, and land use.
-                </p>
+          <article className="surface-card mini-kpi-card">
+            <h3>Core Insights</h3>
+            <div className="mini-kpis">
+              <div>
+                <strong>Top Contributors</strong>
+                <span>Energy + Transport + Industry</span>
               </div>
-
-              <div className="overview-card">
-                <h3>Climate Vulnerability Insights</h3>
-                <p>
-                  Identifies climate-sensitive regions, extreme-weather–prone states, and sectors contributing the most
-                  to India’s climate risk.
-                </p>
+              <div>
+                <strong>Risk Concentration</strong>
+                <span>Western coast, industrial belts, urban corridors</span>
               </div>
-
-              <div className="overview-card">
-                <h3>Policy Impact Assessment</h3>
-                <p>
-                  Evaluates national and state-level climate initiatives, revealing implementation gaps and opportunities
-                  for enhanced environmental governance.
-                </p>
-              </div>
-
-              <div className="overview-card">
-                <h3>Public-Oriented Visualization</h3>
-                <p>
-                  Transforms complex datasets into simple, intuitive dashboards that empower citizens, students,
-                  and researchers to understand climate action clearly.
-                </p>
+              <div>
+                <strong>Policy Priority</strong>
+                <span>State-specific action over one-size-fits-all targets</span>
               </div>
             </div>
+          </article>
+        </div>
+      </section>
 
-            <p className="overview-footer">
-              This overview forms the foundation for CarbonSense India — a public-facing climate knowledge platform designed to
-              simplify environmental data and support action-driven, sustainable decision-making.
-            </p>
-          </div>
-        </section>
+      <section className="research-section">
+        <h2><FaRegLightbulb /> Emission Mix Infographic</h2>
+        <div className="mix-grid">
+          {emissionMix.map((item) => {
+            const Icon = item.icon;
+            return (
+              <article className="mix-card" key={item.sector}>
+                <div className="mix-head">
+                  <Icon />
+                  <h3>{item.sector}</h3>
+                </div>
+                <div className="mix-bar-wrap" aria-label={`${item.sector} share ${item.share} percent`}>
+                  <div className="mix-bar" style={{ width: `${item.share}%` }} />
+                </div>
+                <p className="mix-share">{item.share}% share</p>
+                <p>{item.detail}</p>
+              </article>
+            );
+          })}
+        </div>
+      </section>
 
+      <section className="research-section">
+        <h2><FaMapMarkedAlt /> Regional Vulnerability Bands</h2>
+        <div className="risk-grid">
+          {stateRiskBands.map((band) => (
+            <article className={`risk-card ${band.color}`} key={band.band}>
+              <h3>{band.band}</h3>
+              <p>{band.states}</p>
+            </article>
+          ))}
+        </div>
+      </section>
 
-        {/* ======== SECTION 2: Key Findings Cards ======== */}
-        <section className="research-section fade-in">
-          <h2>Key Findings</h2>
+      <section className="research-section">
+        <h2>Decarbonization Roadmap</h2>
+        <div className="roadmap-grid">
+          {roadmap.map((step) => (
+            <article className="roadmap-card" key={step.phase}>
+              <span className="phase-pill">{step.phase}</span>
+              <h3>{step.title}</h3>
+              <ul>
+                {step.points.map((point) => (
+                  <li key={point}>{point}</li>
+                ))}
+              </ul>
+            </article>
+          ))}
+        </div>
+      </section>
 
-          <div className="key-findings-grid">
-            <div className="finding-card">
-              <FaChartLine className="find-icon" />
-              <h3>Transport Is a Major Contributor</h3>
-              <p>
-                Road transport generates over 80% of transportation emissions,
-                driven by rapid motorization and diesel-based freight systems.
-              </p>
-            </div>
-
-            <div className="finding-card">
-              <FaGlobeAsia className="find-icon" />
-              <h3>Coal Dominates Energy</h3>
-              <p>
-                Coal accounts for 70%+ of electricity generation, making power
-                production the largest emissions source nationwide.
-              </p>
-            </div>
-
-            <div className="finding-card">
-              <FaLeaf className="find-icon" />
-              <h3>Agriculture Emits Methane</h3>
-              <p>
-                Livestock and rice cultivation produce heavy methane loads,
-                intensifying India’s climate vulnerability.
-              </p>
-            </div>
-
-            <div className="finding-card">
-              <FaBookReader className="find-icon" />
-              <h3>Public Awareness Gap</h3>
-              <p>
-                Climate data is fragmented and inaccessible, limiting public
-                engagement and slowing policy impact.
-              </p>
-            </div>
-          </div>
-        </section>
-
-        {/* ======== SECTION 3: Methodology Diagram ======== */}
-        <section className="research-section fade-in">
-          <h2>Research Methodology</h2>
-
-          <div className="method-flow">
-            <div className="method-step">
-              <span className="step-circle">1</span>
-              <p>Government & Open-Source Datasets</p>
-            </div>
-            <div className="method-arrow">→</div>
-
-            <div className="method-step">
-              <span className="step-circle">2</span>
-              <p>Satellite-Based Emission Tracking</p>
-            </div>
-            <div className="method-arrow">→</div>
-
-            <div className="method-step">
-              <span className="step-circle">3</span>
-              <p>Sector-wise Emission Modeling</p>
-            </div>
-            <div className="method-arrow">→</div>
-
-            <div className="method-step">
-              <span className="step-circle">4</span>
-              <p>Visualization & Climate Interaction Tools</p>
-            </div>
-          </div>
-
-          <p className="method-desc">
-            The study combines statistical datasets, geospatial mappings,
-            real-time tracking, and AI-assisted pattern detection to derive clean,
-            interpretable insights for CarbonSense India.
-          </p>
-        </section>
-
-        {/* ======== SECTION 4: Why CarbonSense Matters ======== */}
-        <section className="research-section fade-in">
-          <h2>Why This Study Matters</h2>
-
-          <ul className="why-list">
-            <li>Transforms complex environmental data into simple, public-friendly visuals.</li>
-            <li>Shows regional disparities in emissions and climate vulnerability.</li>
-            <li>Supports India’s Net-Zero 2070 commitment through transparent reporting.</li>
-            <li>Empowers students, researchers, and citizens with open climate knowledge.</li>
-            <li>Promotes sustainable behavior change at the ground level.</li>
-          </ul>
-        </section>
-
-        {/* ======== SECTION 5: Download Research Paper ======== */}
-        <section className="research-section fade-in">
-          <h2>Full Research Paper</h2>
-          <p>
-            Access the complete research document covering India’s climate
-            history, emissions modeling, vulnerability mapping, and required policy
-            actions.
-          </p>
-
-          <a
-            href="/research/complete-research-paper.pdf"
-            download
-            className="download-btn full-download"
-          >
-            <FaDownload /> Download Full Paper (PDF)
-          </a>
-        </section>
-      </div>
+      <section className="research-section final-cta">
+        <h2>Full Research Report</h2>
+        <p>
+          Download the full report for references, assumptions, data methodology, and detailed policy recommendations.
+        </p>
+        <a href="/research/complete-research-paper.pdf" download className="download-btn">
+          <FaDownload /> Download Full Paper (PDF)
+        </a>
+      </section>
     </div>
   );
 };
