@@ -7,7 +7,6 @@ This directory contains screenshots of the CarbonSense India platform showcasing
 - **dashboard.png** - Interactive Tableau dashboard with state-wise emissions data
 - **global-view.png** - 3D globe visualization with ozone distribution
 - **chatbot.png** - AI-powered chatbot interface for climate queries
-- **mobile-responsive.png** - Mobile responsive design demonstration
 
 ## How to Add Screenshots
 

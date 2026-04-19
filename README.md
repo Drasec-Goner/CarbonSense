@@ -44,20 +44,20 @@ state-specific climate actions, schemes, and reduction ideas.
 ## Screenshots
 
 ### Dashboard View
+
 ![Dashboard](./screenshots/dashboard.png)
-*Interactive Tableau dashboard showing state-wise carbon emissions and climate data.*
+_Interactive Tableau dashboard showing state-wise carbon emissions and climate data._
 
 ### Global View
+
 ![Global View](./screenshots/global-view.png)
-*3D Globe visualization with ozone distribution and key observation points worldwide.*
+_3D Globe visualization with ozone distribution and key observation points worldwide._
 
 ### Chatbot Interface
-![Chatbot](./screenshots/chatbot.png)
-*AI-powered chatbot for state-specific climate actions and emission reduction strategies.*
 
-### Mobile Responsive Design
-![Mobile](./screenshots/mobile-responsive.png)
-*Seamless experience across desktop and mobile devices.*
+![Chatbot](./screenshots/chatbot.png)
+
+_AI-powered chatbot for state-specific climate actions and emission reduction strategies._
 
 ---
 
@@ -72,7 +72,7 @@ flowchart LR
 
     C --> B[Express API]
     B --> M[(MongoDB - StateProgram)]
-    B --> A[Gemini API - Optional]
+    B --> A[Gemini API]
 
     B --> R1[/GET /api/chatbot/states/]
     B --> R2[/GET /api/chatbot/state/:stateName/]
@@ -92,7 +92,7 @@ sequenceDiagram
     User->>UI: Ask climate question with state name
     UI->>API: POST /api/chatbot/query
     API->>DB: Fetch state programs/suggestions
-    API->>AI: Optional verification/answer generation
+    API->>AI: Verification and answer generation
     AI-->>API: Structured response
     API-->>UI: Intent + answer + display data
     UI-->>User: Chat response + suggestions/program cards
@@ -103,6 +103,7 @@ sequenceDiagram
 ## Architecture
 
 ### Frontend
+
 - React SPA (`frontend/`)
 - Route-based pages:
   - Dashboard
@@ -111,22 +112,29 @@ sequenceDiagram
 - Chatbot floating widget and climate clock components
 
 ### Backend
+
 - Express API (`backend/`)
 - MongoDB model-backed state data
 - Conversational query routing with intent detection and fallback logic
-- Optional Gemini enrichment if API key is configured
+- Gemini API integration for verification and answer generation
 
 ---
 
 ## Tech Stack
 
-| Layer | Tools |
-|---|---|
+| Layer    | Tools                                                          |
+| -------- | -------------------------------------------------------------- |
 | Frontend | React, React Router, Axios, React Icons, react-globe.gl, three |
-| Backend | Node.js, Express, CORS, Body-Parser, Dotenv |
-| Database | MongoDB + Mongoose |
-| AI | Gemini API (optional, environment-driven) |
-| Tooling | npm, concurrently, nodemon |
+| Backend  | Node.js, Express, CORS, Body-Parser, Dotenv                    |
+| Database | MongoDB + Mongoose                                             |
+| AI       | Gemini API                                                     |
+| Tooling  | npm, concurrently, nodemon                                     |
+
+---
+
+## Live Demo
+
+**Frontend:** [http://carbonsense-frontend.onrender.com/](http://carbonsense-frontend.onrender.com/)
 
 ---
 
@@ -197,14 +205,14 @@ npm run dev
 
 ## Environment Variables
 
-| Variable | Required | Description |
-|---|---:|---|
-| `PORT` | No | Backend port (default: `5000`) |
-| `NODE_ENV` | No | Runtime mode (`development`/`production`) |
-| `FRONTEND_URL` | Yes | Allowed frontend URL for CORS |
-| `MONGODB_URI` | Yes | MongoDB connection string |
-| `GEMINI_API_KEY` | Optional | Enables Gemini-assisted responses |
-| `GEMINI_MODEL` | Optional | Gemini model id (default fallback is used) |
+| Variable         | Required | Description                                |
+| ---------------- | -------: | ------------------------------------------ |
+| `PORT`           |       No | Backend port (default: `5000`)             |
+| `NODE_ENV`       |       No | Runtime mode (`development`/`production`)  |
+| `FRONTEND_URL`   |      Yes | Allowed frontend URL for CORS              |
+| `MONGODB_URI`    |      Yes | MongoDB connection string                  |
+| `GEMINI_API_KEY` | Optional | Enables Gemini-assisted responses          |
+| `GEMINI_MODEL`   | Optional | Gemini model id (default fallback is used) |
 
 ---
 
@@ -269,6 +277,7 @@ npm run test --prefix frontend
 <summary><strong>Intent Detection (Chatbot)</strong></summary>
 
 The backend classifies messages into intents such as:
+
 - `households`
 - `transport`
 - `industry`
@@ -279,6 +288,7 @@ The backend classifies messages into intents such as:
 - `unsupported`
 
 Then it builds a state-aware answer from project data, with AI enhancement when configured.
+
 </details>
 
 <details>
