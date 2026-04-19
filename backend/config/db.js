@@ -33,7 +33,6 @@ mongoose.connection.on('disconnected', () => {
   console.log('Mongoose disconnected from MongoDB Atlas');
 });
 
-// Graceful shutdown
 process.on('SIGINT', async () => {
   await mongoose.connection.close();
   console.log('Mongoose connection closed through app termination');

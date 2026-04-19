@@ -10,11 +10,9 @@ const seedDatabase = async () => {
     await mongoose.connect(process.env.MONGODB_URI);
     console.log('Connected to MongoDB');
 
-    // Clear existing data
     await StateProgram.deleteMany({});
     console.log('Cleared existing data');
 
-    // Insert new data
     for (const [stateName, data] of Object.entries(stateProgramsData)) {
       await StateProgram.create({
         state: stateName,

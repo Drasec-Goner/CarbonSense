@@ -495,7 +495,6 @@ router.get('/state/:stateName', async (req, res) => {
   }
 });
 
-// Get all available states
 router.get('/states', async (req, res) => {
   try {
     const states = await StateProgram.find({}, 'state').sort({ state: 1 });
@@ -514,7 +513,6 @@ router.get('/states', async (req, res) => {
   }
 });
 
-// Conversational query endpoint
 router.post('/query', async (req, res) => {
   try {
     const message = (req.body?.message || '').trim();
