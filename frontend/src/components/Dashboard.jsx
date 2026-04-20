@@ -38,7 +38,12 @@ const Dashboard = () => {
           style={{ position: 'relative' }}
         >
           <noscript>
-            <a href="#">
+            <a
+              href="https://public.tableau.com/views/CarbonSenseIndia_Dashboard/Overview?:showVizHome=no"
+              target="_blank"
+              rel="noreferrer"
+              aria-label="Open the CarbonSense Tableau dashboard in a new tab"
+            >
               <img
                 alt="Overview"
                 src="https://public.tableau.com/static/images/Ca/CarbonSenseIndia_Dashboard/Overview/1_rss.png"

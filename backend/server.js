@@ -8,6 +8,8 @@ const chatbotRoutes = require('./routes/chatbot');
 dotenv.config();
 
 const app = express();
+const PORT = process.env.PORT || 5000;
+
 connectDB();
 
 app.use(cors({
@@ -64,6 +66,7 @@ app.get('/', (req, res) => {
 });
 
 // Error handling middleware
+app.use((err, req, res, next) => {
   console.error('Error:', err);
   res.status(500).json({
     success: false,
@@ -73,6 +76,7 @@ app.get('/', (req, res) => {
 });
 
 // 404 handler
+app.use((req, res) => {
   res.status(404).json({
     success: false,
     message: 'Route not found'

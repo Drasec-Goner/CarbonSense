@@ -13,10 +13,11 @@ const connectDB = async () => {
     
     console.log('✅ MongoDB Atlas Connected Successfully');
     console.log(`Database: ${mongoose.connection.name}`);
+    return true;
   } catch (error) {
     console.error('❌ MongoDB Atlas Connection Error:', error.message);
     console.error('Check your MONGODB_URI in .env file');
-    process.exit(1);
+    return false;
   }
 };
 
@@ -34,7 +35,9 @@ mongoose.connection.on('disconnected', () => {
 });
 
 process.on('SIGINT', async () => {
-  await mongoose.connection.close();
+  if (mongoose.connection.readyState !== 0) {
+    await mongoose.connection.close();
+  }
   console.log('Mongoose connection closed through app termination');
   process.exit(0);
 });

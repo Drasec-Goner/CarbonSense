@@ -1,6 +1,8 @@
 const express = require('express');
+const mongoose = require('mongoose');
 const router = express.Router();
 const StateProgram = require('../models/StateProgram');
+const stateProgramsData = require('../data/statePrograms.json');
 
 const GEMINI_MODEL = process.env.GEMINI_MODEL || 'gemini-1.5-flash';
 
@@ -14,6 +16,51 @@ const DEFAULT_GHG_IDEAS = [
 ];
 
 const escapeRegex = (value) => value.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+
+const isDatabaseReady = () => mongoose.connection.readyState === 1;
+
+const normalizeStateRecord = (stateName, data) => ({
+  state: stateName,
+  programs: Array.isArray(data?.programs) ? data.programs : [],
+  suggestions: Array.isArray(data?.suggestions) ? data.suggestions : [],
+});
+
+const findStateRecordInJson = (stateName) => {
+  const entry = Object.entries(stateProgramsData).find(
+    ([state]) => state.toLowerCase() === stateName.toLowerCase()
+  );
+
+  return entry ? normalizeStateRecord(entry[0], entry[1]) : null;
+};
+
+const getAllStateNames = async () => {
+  if (isDatabaseReady()) {
+    const states = await StateProgram.find({}, 'state').sort({ state: 1 }).lean();
+    return states.map((s) => s.state);
+  }
+
+  return Object.keys(stateProgramsData).sort((a, b) => a.localeCompare(b));
+};
+
+const getStateRecordByName = async (stateName) => {
+  if (isDatabaseReady()) {
+    return StateProgram.findOne({
+      state: { $regex: new RegExp(`^${escapeRegex(stateName)}$`, 'i') },
+    }).lean();
+  }
+
+  return findStateRecordInJson(stateName);
+};
+
+const serializeStateRecord = (stateRecord) => {
+  if (!stateRecord) return null;
+
+  if (typeof stateRecord.toObject === 'function') {
+    return stateRecord.toObject();
+  }
+
+  return { ...stateRecord };
+};
 
 const findMentionedState = (message, states) => {
   const lowerMessage = message.toLowerCase();
@@ -459,9 +506,7 @@ const getGeminiAnswer = async ({ message, stateData, intent, ideas, ngoSchemes }
 router.get('/state/:stateName', async (req, res) => {
   try {
     const stateName = decodeURIComponent(req.params.stateName).trim();
-    const stateData = await StateProgram.findOne({
-      state: { $regex: new RegExp(`^${escapeRegex(stateName)}$`, 'i') },
-    });
+    const stateData = await getStateRecordByName(stateName);
 
     if (!stateData) {
       return res.status(404).json({
@@ -477,7 +522,7 @@ router.get('/state/:stateName', async (req, res) => {
     res.json({
       success: true,
       data: {
-        ...stateData.toObject(),
+        ...serializeStateRecord(stateData),
         displayPrograms,
         displaySuggestions,
         verificationSource: verifiedState ? 'ai-plus-project-data' : 'project-data',
@@ -497,8 +542,7 @@ router.get('/state/:stateName', async (req, res) => {
 
 router.get('/states', async (req, res) => {
   try {
-    const states = await StateProgram.find({}, 'state').sort({ state: 1 });
-    const stateNames = states.map((s) => s.state);
+    const stateNames = await getAllStateNames();
 
     res.json({
       success: true,
@@ -536,8 +580,7 @@ router.post('/query', async (req, res) => {
       });
     }
 
-    const states = await StateProgram.find({}, 'state').sort({ state: 1 });
-    const stateNames = states.map((s) => s.state);
+    const stateNames = await getAllStateNames();
     const detectedState = findMentionedState(message, stateNames);
 
     if (!detectedState) {
@@ -553,7 +596,7 @@ router.post('/query', async (req, res) => {
       });
     }
 
-    const stateData = await StateProgram.findOne({ state: detectedState });
+    const stateData = await getStateRecordByName(detectedState);
 
     if (!stateData) {
       return res.status(404).json({
